@@ -18,7 +18,6 @@ window.onload = function() {
 }
 
 
-
 // Remove elements from search page
 function removeElementsFromSearch() {
     const interval = setInterval(() => {
@@ -108,9 +107,8 @@ function handlePage() {
     // Home page
     if (window.location.href.includes(youtubeUrl) && !window.location.href.includes('/watch') && !window.location.href.includes('/results')) {
         if (studyMode) {
+
             const body = document.querySelector('body');
-            const title = document.querySelector('title');
-            title.innerHTML = "Study Mode";
             
 
             fetch(chrome.runtime.getURL('resources/homePage.html'))
@@ -124,6 +122,8 @@ function handlePage() {
                         const searchInput = document.getElementById('search-input').value;
                         window.location.href = `${youtubeUrl}/results?search_query=${searchInput}`;
                     }
+
+                    document.title = "Home - Study Mode";
                 })
 
         } else {
@@ -135,6 +135,8 @@ function handlePage() {
     if(window.location.href.includes(youtubeSearchResultsUrl)) {
         if (studyMode) {
             removeElementsFromSearch();
+
+            document.title = "Search Results - Study Mode";
         } else {
             console.log("Study Mode is off");
         }
@@ -147,6 +149,8 @@ function handlePage() {
             const interval = setInterval(() => {
                 removeElementsFromWatch(interval);
             }, 500);
+
+            document.title = "Watch - Study Mode";
         } else {
             console.log("Study Mode is off");
         }
@@ -159,5 +163,6 @@ setInterval(function() {
     if(window.location.href != oldUrl) {
         oldUrl = window.location.href
         window.location.reload();
+        document.title = "Study Mode";
     }
 }, 1000);

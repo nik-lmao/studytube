@@ -8,6 +8,11 @@
     "default_icon": "icon.png",
     "default_title": "StudyTube"
   },
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
   "permissions": [
     "activeTab",
     "storage"
@@ -20,8 +25,15 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["resources/homePage.html", "resources/status.json"],
-      "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"]
+      "resources": [
+        "resources/homePage.html",
+        "resources/status.json",
+        "resources/favicon.png"
+      ],
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://m.youtube.com/*"
+      ]
     }
   ]
 }
