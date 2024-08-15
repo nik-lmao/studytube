@@ -1,31 +1,27 @@
 {
-    "manifest_version": 3,
-    "name": "StudyTube",
-    "description": "StudyTube is a Chrome extension that helps you study better by providing a distraction-free environment.",
-    "version": "1.0",
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": "icon.png"
-    },
-    "permissions": [
-      "activeTab",
-      "scripting"
-    ],
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["script.js"]
-      }
-    ],
-    "web_accessible_resources": [
-      {
-        "resources": ["resources/homePage.html"],
-        "matches": ["<all_urls>"]
-      },
-      {
-        "resources": ["resources/status.json"],
-        "matches": ["<all_urls>"]
-      }
-    ]
-  }
-  
+  "manifest_version": 3,
+  "name": "StudyTube",
+  "description": "StudyTube is a Chrome extension that helps you study better by providing a distraction-free environment.",
+  "version": "1.0",
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png",
+    "default_title": "StudyTube"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"],
+      "js": ["script.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["resources/homePage.html", "resources/status.json"],
+      "matches": ["https://www.youtube.com/*", "https://m.youtube.com/*"]
+    }
+  ]
+}

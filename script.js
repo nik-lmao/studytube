@@ -5,19 +5,18 @@ const youtubeWatchUrl = `${youtubeUrl}/watch`;
 var studyMode = false;
 
 window.onload = function() {
-    fetch(chrome.runtime.getURL('resources/status.json'))
-        .then(response => response.json())
-        .then(data => {
-            studyMode = data.studyMode == 1 ? true : false;
-            alert("Study Mode: " + studyMode); // This will work correctly here
-
-            // Call functions or execute code that depends on studyMode here
-            handlePage();
-        })
-        .catch(error => {
-            console.error('Error fetching status:', error);
+    if(!chrome.storage.local.get(['studyMode'])) {
+        chrome.storage.local.set({studyMode: false}, function() {
+            console.log("Study Mode is set to false");
         });
+    }
+
+    chrome.storage.local.get(['studyMode'], function(result) {
+        studyMode = result.studyMode === true;
+        handlePage();
+    });
 }
+
 
 
 // Remove elements from search page
@@ -50,7 +49,7 @@ function removeElementsFromSearch() {
             reelShelf.remove();
         });
 
-    }, 500); // Remove elements every 500ms
+    }, 500);
 }
 
 // Remove elements from watch page
@@ -101,6 +100,11 @@ function removeElementsFromWatch() {
 }
 
 function handlePage() {
+    
+    chrome.storage.local.get(['studyMode'], function(result) {
+        studyMode = result.studyMode === true;
+    });
+
     // Home page
     if (window.location.href.includes(youtubeUrl) && !window.location.href.includes('/watch') && !window.location.href.includes('/results')) {
         if (studyMode) {

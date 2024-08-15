@@ -1,8 +1,57 @@
 <html>
+    <head>
+        <title>StudyTube</title>
+        
+
+        <style>
+            body {
+                background-color: #212121;
+
+                height: 200px;
+                width: 300px;
+
+                text-align: center;
+            }
+            h1 {
+                color: #fff;
+            }
+            p {
+                color: #fff;
+                font-size: 15px;
+            }
+            button {
+                background-color: #212121;
+                color: #fff;
+
+                border: 2px solid #3c3c3c;
+
+                border-radius: 500px;
+
+                height: 40px;
+                width: 200px;
+
+                transition: 0.1s background-color;
+            }
+
+            button:hover {
+                background-color: #353535;
+            }
+            button:disabled {
+                background-color: #646464;
+                border: none;
+            }
+            button:active {
+                background-color: #5f5f5f;
+            }
+        </style>
     <body>
         <h1>StudyTube</h1>
 
+        <p>StudyTube provides a distraction-free environment while browsing on YouTube.</p>
+
         <button id="toggle">Toggle Study Mode</button>
+
+        <p>StudyMode is currently <span id="status"></span></p>
 
         <script src="popup.js"></script>
     </body>
