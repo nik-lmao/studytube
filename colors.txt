@@ -1,6 +1,0 @@
---dark-theme-background-color: #212121;
---dark-theme-base-color: #fff;
---dark-theme-text-color: #fff;
---dark-theme-secondary-color: #bcbcbc;
---dark-theme-disabled-color: #646464;
---dark-theme-divider-color: #3c3c3c;
