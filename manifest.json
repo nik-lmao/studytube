@@ -19,7 +19,11 @@
     ],
     "web_accessible_resources": [
       {
-        "resources": ["pages/homePage.html"],
+        "resources": ["resources/homePage.html"],
+        "matches": ["<all_urls>"]
+      },
+      {
+        "resources": ["resources/status.json"],
         "matches": ["<all_urls>"]
       }
     ]

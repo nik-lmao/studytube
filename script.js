@@ -1,28 +1,24 @@
 const youtubeUrl = "https://www.youtube.com";
 const youtubeSearchResultsUrl = `${youtubeUrl}/results`;
 const youtubeWatchUrl = `${youtubeUrl}/watch`;
-let studyMode = true;
 
-// Motivational quotes
+var studyMode = false;
 
-function generateQuote() {
-    const quotes = [
-        "The only way to achieve the impossible is to believe it is possible.",
-        "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-        "Your only limit is your mind.",
-        "Dream big, work hard, stay focused, and surround yourself with good people.",
-        "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
-        "Start where you are. Use what you have. Do what you can.",
-        "Success doesn't come from what you do occasionally, it comes from what you do consistently.",
-        "The future belongs to those who believe in the beauty of their dreams.",
-        "Don’t watch the clock; do what it does. Keep going.",
-        "Difficult roads often lead to beautiful destinations.",
-        "You're doing great! Keep going!"
-      ];
-      
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    return quotes[randomIndex];
+window.onload = function() {
+    fetch(chrome.runtime.getURL('resources/status.json'))
+        .then(response => response.json())
+        .then(data => {
+            studyMode = data.studyMode == 1 ? true : false;
+            alert("Study Mode: " + studyMode); // This will work correctly here
+
+            // Call functions or execute code that depends on studyMode here
+            handlePage();
+        })
+        .catch(error => {
+            console.error('Error fetching status:', error);
+        });
 }
+
 
 // Remove elements from search page
 function removeElementsFromSearch() {
@@ -84,7 +80,7 @@ function removeElementsFromWatch() {
             recommendedVideos.innerHTML = "";
 
             const quote = document.createElement('p');
-            quote.innerHTML = generateQuote();
+            quote.innerHTML = "You're doing great! Keep going!";
             quote.style.fontSize = "20px";
             quote.style.color = "#fff";
             recommendedVideos.appendChild(quote);
@@ -104,47 +100,60 @@ function removeElementsFromWatch() {
     }, 500);
 }
 
-// Home page
-if (window.location.href.includes(youtubeUrl) && !window.location.href.includes('/watch') && !window.location.href.includes('/results')) {
-    if (studyMode) {
-        const body = document.querySelector('body');
-        const title = document.querySelector('title');
-        title.innerHTML = "Study Mode";
-        
+function handlePage() {
+    // Home page
+    if (window.location.href.includes(youtubeUrl) && !window.location.href.includes('/watch') && !window.location.href.includes('/results')) {
+        if (studyMode) {
+            const body = document.querySelector('body');
+            const title = document.querySelector('title');
+            title.innerHTML = "Study Mode";
+            
 
-        fetch(chrome.runtime.getURL('pages/homePage.html'))
-            .then(response => response.text())
-            .then(data => {
-                body.innerHTML = data;
-                
-                const searchButton = document.getElementById('search-button');
+            fetch(chrome.runtime.getURL('resources/homePage.html'))
+                .then(response => response.text())
+                .then(data => {
+                    body.innerHTML = data;
+                    
+                    const searchButton = document.getElementById('search-button');
 
-                searchButton.onclick = () => {
-                    const searchInput = document.getElementById('search-input').value;
-                    window.location.href = `${youtubeUrl}/results?search_query=${searchInput}`;
-                }
-            })
+                    searchButton.onclick = () => {
+                        const searchInput = document.getElementById('search-input').value;
+                        window.location.href = `${youtubeUrl}/results?search_query=${searchInput}`;
+                    }
+                })
 
-    } else {
-        console.log("Study Mode is off");
+        } else {
+            console.log("Study Mode is off");
+        }
+    }
+
+    // Search results page
+    if(window.location.href.includes(youtubeSearchResultsUrl)) {
+        if (studyMode) {
+            removeElementsFromSearch();
+        } else {
+            console.log("Study Mode is off");
+        }
+    }
+
+    // Watch page
+
+    if(window.location.href.includes(youtubeWatchUrl)){
+        if(studyMode) {
+            const interval = setInterval(() => {
+                removeElementsFromWatch(interval);
+            }, 500);
+        } else {
+            console.log("Study Mode is off");
+        }
     }
 }
 
-// Search results page
-if(window.location.href.includes(youtubeSearchResultsUrl)) {
-    if (studyMode) {
-        removeElementsFromSearch();
-    } else {
-        console.log("Study Mode is off");
+// Update page when URL changes
+var oldUrl = window.location.href;
+setInterval(function() {
+    if(window.location.href != oldUrl) {
+        oldUrl = window.location.href
+        window.location.reload();
     }
-}
-
-// Watch page
-
-if(window.location.href.includes(youtubeWatchUrl)){
-    if(studyMode) {
-        removeElementsFromWatch();
-    } else {
-        console.log("Study Mode is off");
-    }
-}
+}, 1000);
