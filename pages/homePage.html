@@ -11,25 +11,53 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            background-color: #212121;
+            color: #fff;
             font-family: Arial, sans-serif;
+            text-align: center;
         }
         #search-input {
             padding: 10px;
             width: 300px;
             font-size: 16px;
             margin-bottom: 20px;
+            border-radius: 500px;
+            border: 2px #3c3c3c solid;
+            background-color: #212121;
+            color: #fff;
+            margin-right: 10px;
+        }
+        #search-input:focus {
+            outline: none;
         }
         #search-button {
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            border: 2px #3c3c3c solid;
+            border-radius: 500px;
+            background-color: #212121;
+            color: #fff;
+            transition: 0.1s background-color;
+        }
+        #search-button:hover {
+            background-color: #353535;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 20px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div>
+        <h1>StudyTube</h1>
+        <p>What do you want to learn about today?</p>
+        <br>
         <input type="text" id="search-input" placeholder="Enter search query">
         <button id="search-button">Search</button>
     </div>    
